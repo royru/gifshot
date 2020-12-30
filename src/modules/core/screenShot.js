@@ -15,7 +15,7 @@ import AnimatedGIF from './AnimatedGIF';
 const noop = () => {};
 
 const screenShot = {
-    getGIF: (options = {}, callback) => {
+    getGIF: async (options = {}, callback) => {
         callback = utils.isFunction(callback) ? callback : noop;
 
         let canvas = document.createElement('canvas');
@@ -64,18 +64,18 @@ const screenShot = {
         let sourceWidth = crop ? videoWidth - crop.scaledWidth : 0;
         let sourceY = crop ? Math.floor(crop.scaledHeight / 2) : 0;
         let sourceHeight = crop ? videoHeight - crop.scaledHeight : 0;
-        const captureFrames = function captureSingleFrame () {
+        const captureFrames = async function captureSingleFrame () {
             const framesLeft = pendingFrames - 1;
 
             if (savedRenderingContexts.length) {
                 context.putImageData(savedRenderingContexts[numFrames - pendingFrames], 0, 0);
 
-                finishCapture();
+                await finishCapture();
             } else {
-                drawVideo();
+                await drawVideo();
             }
 
-            function drawVideo () {
+            async function drawVideo () {
                 try {
                     // Makes sure the canvas video heights/widths are in bounds
                     if (sourceWidth > videoWidth) {
@@ -98,7 +98,7 @@ const screenShot = {
 
                     context.drawImage(videoElement, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, gifWidth, gifHeight);
 
-                    finishCapture();
+                    await finishCapture();
                 } catch (e) {
                     // There is a Firefox bug that sometimes throws NS_ERROR_NOT_AVAILABLE and
                     // and IndexSizeError errors when drawing a video element to the canvas
@@ -111,7 +111,7 @@ const screenShot = {
                 }
             }
 
-          function finishCapture () {
+          async function finishCapture () {
               let imageData;
 
               if (saveRenderingContexts) {
@@ -130,6 +130,8 @@ const screenShot = {
               }
 
               imageData = context.getImageData(0, 0, gifWidth, gifHeight);
+
+              // write your code here ...
 
               ag.addFrameImageData(imageData);
 
