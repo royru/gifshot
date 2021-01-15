@@ -2008,6 +2008,17 @@ const screenShot = {
           }
         }
       }
+      /**
+       * Performs a transformation of a raw webcam image frame to alter its appearance.
+       * @param {HTMLCanvasElement} canvasImg - a single gif image frame represented as html canvas
+       * @returns {HTMLCanvasElement} - a new, transformed canvas image frame
+       */
+
+
+      async function transformSingleGifCanvasFrame(canvasImg) {
+        // TODO: write your code here to tranform the input canvas.
+        return canvasImg;
+      }
 
       async function finishCapture() {
         let imageData;
@@ -2029,8 +2040,8 @@ const screenShot = {
           context.fillText(text, textXCoordinate, textYCoordinate);
         }
 
-        imageData = context.getImageData(0, 0, gifWidth, gifHeight); // write your code here ...
-
+        const transformedCanvas = await transformSingleGifCanvasFrame(canvas);
+        imageData = transformedCanvas.getContext("2d").getImageData(0, 0, gifWidth, gifHeight);
         ag.addFrameImageData(imageData);
         pendingFrames = framesLeft; // Call back with an r value indicating how far along we are in capture
 

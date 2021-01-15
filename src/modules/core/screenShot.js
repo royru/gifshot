@@ -18,9 +18,6 @@ const screenShot = {
     getGIF: async (options = {}, callback) => {
         callback = utils.isFunction(callback) ? callback : noop;
 
-        console.log('loading model')
-        const net = await bodyPix.load();
-
         let canvas = document.createElement('canvas');
         let context;
         let existingImages = options.images;
@@ -112,7 +109,17 @@ const screenShot = {
                         throw e;
                     }
                 }
-            }
+          }
+          
+          /**
+           * Performs a transformation of a raw webcam image frame to alter its appearance.
+           * @param {HTMLCanvasElement} canvasImg - a single gif image frame represented as html canvas
+           * @returns {HTMLCanvasElement} - a new, transformed canvas image frame
+           */
+          async function transformSingleGifCanvasFrame(canvasImg) {
+            // TODO: write your code here to tranform the input canvas.
+            return canvasImg
+          }
 
           async function finishCapture () {
               let imageData;
@@ -132,20 +139,7 @@ const screenShot = {
                   context.fillText(text, textXCoordinate, textYCoordinate);
               }
 
-              // use imageData to feed to the model
-              imageData = context.getImageData(0, 0, gifWidth, gifHeight);
-              
-              // use the regular canvas to apply the mask to
-              console.log(canvas)
-
-              // use this canvas to eventually render the mask onto ...
-              const transformedCanvas = document.createElement('canvas');
-              transformedCanvas.width = gifWidth
-              transformedCanvas.height = gifHeight
-
-              // TODO: write your code here
-          
-              // ... and finally take its pixel values for further gif processing
+              const transformedCanvas = await transformSingleGifCanvasFrame(canvas)
               imageData = transformedCanvas.getContext("2d").getImageData(0, 0, gifWidth, gifHeight);
 
               ag.addFrameImageData(imageData);
