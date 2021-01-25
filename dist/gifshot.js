@@ -2016,7 +2016,6 @@ const screenShot = {
 
 
       async function transformSingleGifCanvasFrame(canvasImg) {
-        console.log('test');
         const net = await bodyPix.load();
         const segmentation = await net.segmentPerson(canvasImg);
         const coloredPartImage = bodyPix.toMask(segmentation);
