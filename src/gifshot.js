@@ -2009,8 +2009,16 @@ const screenShot = {
 
 
       async function transformSingleGifCanvasFrame(canvasImg) {
-        // TODO: write your code here to tranform the input canvas.
-        return canvasImg;
+        console.log('test');
+        const net = await bodyPix.load();
+        const segmentation = await net.segmentPerson(canvasImg);
+        const coloredPartImage = bodyPix.toMask(segmentation);
+        const transformedCanvas = document.createElement('canvas');
+        const opacity = 1;
+        const flipHorizontal = false;
+        const maskBlurAmount = 0;
+        bodyPix.drawMask(transformedCanvas, canvasImg, coloredPartImage, opacity, maskBlurAmount, flipHorizontal);
+        return transformedCanvas;
       }
 
       async function finishCapture() {
