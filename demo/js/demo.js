@@ -30,7 +30,7 @@
             gifWidth: Number(gifWidth.value),
             gifHeight: Number(gifHeight.value),
             images: gifSource.value === 'images' ? ['http://i.imgur.com/2OO33vX.png', 'http://i.imgur.com/qOwVaSN.png', 'http://i.imgur.com/Vo5mFZJ.gif'] : false,
-            video: gifSource.value === 'video' ? ['example.mp4', 'example.ogv'] : false,
+            video: gifSource.value === 'video' ? ['example.mov'] : false,
             filter: filter.value,
             interval: Number(interval.value),
             numFrames: Number(numFrames.value),
